@@ -14,7 +14,7 @@ class EventDetails extends StatefulWidget {
 class _EventDetailsState extends State<EventDetails> {
   Map<String, dynamic> event = {};
   final TextEditingController _seatsController = TextEditingController();
-  final TextEditingController _userIdController = TextEditingController(); // TextController for user_id input
+  final TextEditingController _userIdController = TextEditingController(); 
 
   @override
   void initState() {
@@ -22,9 +22,8 @@ class _EventDetailsState extends State<EventDetails> {
     fetchEventDetails();
   }
 
-  // Function to book ticket
   Future<void> bookTicket() async {
-    final userId = _userIdController.text;  // Get the entered user ID
+    final userId = _userIdController.text;  
 
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please enter your user ID')));
@@ -35,7 +34,7 @@ class _EventDetailsState extends State<EventDetails> {
       final response = await http.post(
         Uri.parse('http://fitnessm.ct.ws/bookTicket.php'),
         body: {
-          'user_id': userId,  // Use the entered user_id
+          'user_id': userId,  
           'event_id': widget.eventId.toString(),
           'seats_booked': _seatsController.text,
         },
@@ -47,7 +46,6 @@ class _EventDetailsState extends State<EventDetails> {
       );
 
       if (result['success'] == true) {
-        // Update available seats dynamically
         fetchEventDetails();
       }
     } catch (e) {
@@ -57,7 +55,6 @@ class _EventDetailsState extends State<EventDetails> {
     }
   }
 
-  // Fetch event details
   Future<void> fetchEventDetails() async {
     try {
       final response = await http.get(
@@ -109,7 +106,6 @@ class _EventDetailsState extends State<EventDetails> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20),
-            // Text field to input user ID
             TextField(
               controller: _userIdController,
               decoration: const InputDecoration(
@@ -159,7 +155,6 @@ class EventList extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Navigate to EventDetails page with an example eventId
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => EventDetails(eventId: 1)),
